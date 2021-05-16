@@ -255,6 +255,7 @@ void VerifyShape(CompMesh *cmesh, int side)
         for(int idf = 0; idf<ndof; idf++)
         {
             if(celside->GetDOF(idf).GetNShape() == 0) continue;
+
             int dofindex = celside->GetDOFIndex(idf);
             int rootlocdof = rootDOF[dofindex];
             int sidepos = firstshapeSide[idf];

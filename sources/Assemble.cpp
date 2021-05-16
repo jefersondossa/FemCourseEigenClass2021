@@ -69,5 +69,6 @@ void Assemble::Compute(MatrixDouble &globmat, MatrixDouble &rhs) {
         // Implement the assembly method
         std::cout << "Please implement me\n";
         DebugStop();
+
     }
 }
