@@ -79,6 +79,10 @@ void ComputeX(VecDouble &xi, double fac, VecDouble &x, MatrixDouble &gradx)
     cornerco *= fac;
     x.resize(cornerco.rows());
     gradx.resize(cornerco.rows(),Geom::Dimension);
+    typename Geom::LocIntRule intrule(2);
+    int npoints = intrule.NPoints();
+    const int dim = Geom::Dimension;
+    // std::cout << "BBBBB " << xi.size() << " " << xi(0) << std::endl;
     Geom::X(xi,cornerco,x);
     Geom::GradX(xi,cornerco,x,gradx);
 
