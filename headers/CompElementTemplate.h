@@ -12,6 +12,14 @@
 #include "IntRule.h"
 #include "DOF.h"
 
+/**
+@brief Computational element based on @ref shape
+
+This class implements the computation of element shape functions and holds the information of DOF objects
+ through their indices
+@ingroup approximation
+*/
+
 template<class Shape>
 class CompElementTemplate : public CompElement
 {

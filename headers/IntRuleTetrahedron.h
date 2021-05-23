@@ -12,6 +12,10 @@
 #include <stdio.h>
 #include "IntRule.h"
 
+/**
+@brief Integration rule associated with a tetrahedron
+@ingroup integration
+*/
 class IntRuleTetrahedron : public IntRule
 {
   

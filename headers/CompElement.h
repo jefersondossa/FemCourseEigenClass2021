@@ -21,6 +21,17 @@ class PostProcess;
 class IntPointData;
 class DOF;
 
+/**
+ @defgroup approximation Approximation space
+ @brief Definition of the approximation space
+ */
+
+/**
+ @brief Root class for computational elements
+ 
+ This abstract class defines the interfaces implemented in the derived CompElementTemplate classes
+ @ingroup approximation
+ */
 class CompElement
 {
     
@@ -106,7 +117,7 @@ public:
     
     // Compute error and exact solution
     virtual void EvaluateError(VecDouble &errors) const;
-    
+                                       
     // Compute shape functions set at point x
     virtual void ShapeFunctions(const VecDouble &intpoint, VecDouble &phi, MatrixDouble &dphi) const = 0;
     

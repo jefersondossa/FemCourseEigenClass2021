@@ -13,6 +13,16 @@
 #include <stdio.h>
 #include "DataTypes.h"
 
+/**
+ @defgroup integration Integration rules
+ @brief Groups classes that define integration rules
+ */
+
+/**
+ @brief Root class for integration rules
+ This class stores the integration points and weights an integration rule
+ @ingroup integration
+ */
 class IntRule
 {
   

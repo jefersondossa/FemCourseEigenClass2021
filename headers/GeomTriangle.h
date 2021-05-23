@@ -11,6 +11,10 @@
 #include "TopologyTriangle.h"
 #include "GeoElementSide.h"
 
+/**
+ @brief Geometric map of a triangular element
+ @ingroup geometrymap
+ */
 class GeomTriangle : public TopologyTriangle
 {
 public:

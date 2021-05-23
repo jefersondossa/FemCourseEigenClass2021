@@ -11,6 +11,12 @@
 #include "DataTypes.h"
 #include "IntRule1d.h"
 
+/**
+ @brief Defines the topology associated with a 1d element
+ @ingroup topology
+ 
+ represents a one dimensional line between -1 and 1
+ */
 class Topology1d
 {
 public:

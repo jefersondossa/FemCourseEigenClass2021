@@ -12,6 +12,10 @@
 #include "GeoElementSide.h"
 #include <array>
 
+/**
+ @brief Geometric map of a quadrilateral element
+ @ingroup geometrymap
+ */
 class GeomQuad : public TopologyQuad
 {
 public:

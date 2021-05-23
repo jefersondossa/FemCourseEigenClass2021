@@ -11,6 +11,15 @@
 #include "DataTypes.h"
 #include "Topology0d.h"
 
+/**
+ @defgroup shape Shape functions
+ @brief Groups classes that compute shape functions
+ */
+
+/**
+ @brief Shape functions associated with a point element
+ @ingroup shape
+ */
 class Shape0d : public Topology0d
 {
 public:

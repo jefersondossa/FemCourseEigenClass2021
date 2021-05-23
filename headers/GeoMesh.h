@@ -13,6 +13,12 @@
 class CompMesh;
 class GeoElement;
 
+/**
+@brief Geometric mesh class
+ 
+ This class holds a collection of geometric elements and nodes
+@ingroup geometry
+*/
 class GeoMesh
 {
     

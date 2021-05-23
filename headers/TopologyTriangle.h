@@ -10,6 +10,10 @@
 
 #include "IntRuleTriangle.h"
 
+/**
+ @brief Defines the topology associated with a triangle
+ @ingroup topology
+ */
 class TopologyTriangle
 {
 public:
@@ -24,7 +28,7 @@ public:
     static const int nCorners = 3;
     
     // Dimension of triangle elements
-    static const int Dimension = 2;
+    const static int Dimension = 2;
     
     // Number of nodes associated with a side
     static int NSideNodes(int side);

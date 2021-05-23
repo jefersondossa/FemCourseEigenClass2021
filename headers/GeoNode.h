@@ -11,6 +11,12 @@
 #include "DataTypes.h"
 
 
+/**
+@brief Geometric node
+ 
+ This class defines the location of a geometric node
+@ingroup geometry
+*/
 class GeoNode
 {
     // Vector with node coordinates

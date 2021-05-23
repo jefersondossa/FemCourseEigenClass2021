@@ -11,6 +11,10 @@
 #include "DataTypes.h"
 #include "Topology1d.h"
 
+/**
+ @brief Shape functions associated with a line
+ @ingroup shape
+ */
 class Shape1d : public Topology1d
 {
 public:

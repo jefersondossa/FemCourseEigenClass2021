@@ -11,6 +11,19 @@
 #include "Topology0d.h"
 #include "GeoElementSide.h"
 
+/**
+ @defgroup geometrymap Geometric map of an element
+ @brief Groups classes define the mapping from the master element to the deformed element
+ 
+ They need to define the computation of X and GradX at a point in master element space
+ */
+
+/**
+ @brief Defines the geometry associated with a point
+ 
+ In this case the geometric map is rather trivial, a point in parametric space has dimension zero
+ @ingroup geometrymap
+ */
 class Geom0d : public Topology0d
 {
 public:

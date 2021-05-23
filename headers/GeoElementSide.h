@@ -12,6 +12,12 @@
 
 class GeoElement;
 
+/**
+@brief Clas associating an element with a side
+ 
+ This class is built to facilitate iterating between neighbours of elements
+@ingroup geometry
+*/
 class GeoElementSide
 {
     // Associated element

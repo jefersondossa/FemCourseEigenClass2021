@@ -11,6 +11,10 @@
 #include "Topology1d.h"
 #include "GeoElementSide.h"
 
+/**
+ @brief One dimensional geometry
+ @ingroup geometrymap
+ */
 class Geom1d : public Topology1d
 {
 public:

@@ -14,6 +14,10 @@
 #include "IntRule.h"
 
 
+/**
+@brief Integration rule associated with a triangle
+@ingroup integration
+*/
 class IntRuleTriangle : public IntRule
 {
   

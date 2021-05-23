@@ -12,6 +12,12 @@
 #include "GeoElementSide.h"
 #include "DataTypes.h"
 
+/**
+@brief Geometric element defined based on a @ref geometrymap
+ 
+ The template TGeom must be one of the classes defined in @ref geometrymap
+@ingroup geometry
+*/
 template<class TGeom>
 class GeoElementTemplate : public GeoElement
 {

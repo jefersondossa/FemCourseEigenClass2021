@@ -13,6 +13,10 @@
 #include "DataTypes.h"
 #include "IntRule.h"
 
+/**
+@brief Integration rule associated with a quadrilateral
+@ingroup integration
+*/
 class IntRuleQuad : public IntRule
 {
     

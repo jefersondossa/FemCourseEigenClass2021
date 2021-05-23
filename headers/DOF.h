@@ -12,6 +12,12 @@
 
 class CompMesh;
 
+/**
+@brief Definition of a degree of freedom
+
+A degree of freedom groups the equations/degrees of freedom associated with an element/side
+@ingroup approximation
+*/
 class DOF
 {
     // First associated equation

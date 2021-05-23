@@ -10,6 +10,10 @@
 
 #include "IntRuleTetrahedron.h"
 
+/**
+ @brief Defines the topology associated with a tetrahedron
+ @ingroup topology
+ */
 class TopologyTetrahedron
 {
 public:

@@ -11,6 +11,10 @@
 #include "DataTypes.h"
 #include "TopologyTriangle.h"
 
+/**
+@brief Shape functions associated with a triangle
+@ingroup shape
+*/
 class ShapeTriangle : public TopologyTriangle
 {
 public:

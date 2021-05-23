@@ -10,6 +10,10 @@
 
 #include "DataTypes.h"
 
+/**
+ @defgroup geometry Geometry of the domain
+ @brief Groups geometric elements, geometric mesh and element/side classes
+ */
 class CompMesh;
 
 class CompElement;
@@ -18,9 +22,13 @@ class GeoElementSide;
 
 class GeoMesh;
 
+/**
+ @brief Root element class that defines a geometric element
+ @ingroup geometry
+ */
 class GeoElement
 {
-    
+
 protected:
     // Geometric mesh to which the element belongs
     GeoMesh *GMesh;

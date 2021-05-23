@@ -12,6 +12,10 @@
 #include "TopologyTetrahedron.h"
 #include "GeoElementSide.h"
 
+/**
+ @brief Geometric map of a tetrahedron
+ @ingroup geometrymap
+ */
 class GeomTetrahedron : public TopologyTetrahedron
 {
 public:

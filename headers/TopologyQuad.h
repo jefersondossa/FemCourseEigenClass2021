@@ -10,6 +10,10 @@
 
 #include "IntRuleQuad.h"
 
+/**
+ @brief Defines the topology associated with a quadrilateral
+ @ingroup topology
+ */
 class TopologyQuad
 {
 public:

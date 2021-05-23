@@ -13,6 +13,10 @@
 #include <stdio.h>
 #include "IntRule.h"
 
+/**
+ @brief Integration rule associated with a point
+ @ingroup integration
+ */
 class IntRule0d : public IntRule
 {
     

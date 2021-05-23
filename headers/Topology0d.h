@@ -8,15 +8,35 @@
 #ifndef Topology0d_h
 #define Topology0d_h
 
-#include "DataTypes.h"
-#include "IntRule1d.h"
+/**
+@defgroup topology Topology of a finite element
+@brief Groups the class that define the topologies
+ 
+The topology classes define master element as the union of open sets of points.
+A topology has a dimension, a number of sides and number of corner nodes
 
+A topology can be associated with each side. The topology associated with the last side is the topology itself
+
+*/
+
+
+
+#include "DataTypes.h"
+#include "IntRule0d.h"
+
+/*
+ @brief Defines the topology associated with a point
+ 
+ This topology has dimension zero and only one point
+ It will be used to define point loads
+ @ingroup topology
+ */
 class Topology0d
 {
 public:
     
     // Type definition for integration rule 1D
-    typedef IntRule1d LocIntRule;
+    typedef IntRule0d LocIntRule;
     
     // Number of sides associated with 1D elements
     const static int nSides = 1;

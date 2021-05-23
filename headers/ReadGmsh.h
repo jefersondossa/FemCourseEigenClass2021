@@ -13,6 +13,10 @@
 #include <map>
 #include "GeoMesh.h"
 
+/**
+@brief Read the definition of a geometry from a Gmsh file
+@ingroup geometry
+*/
 class ReadGmsh
 {
     
