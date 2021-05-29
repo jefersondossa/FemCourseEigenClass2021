@@ -29,9 +29,27 @@ void Shape1d::Shape(const VecDouble &xi, VecInt &orders, VecDouble &phi, MatrixD
     auto nshape = NShapeFunctions(orders);
     phi.resize(nshape);
     dphi.resize(1,nshape);
-        
-    std::cout << "Please implement me\n";
-    DebugStop();
+    phi.setZero(); dphi.setZero();
+
+    phi[0] = 0.5 * (1. - xi(0));
+    phi[1] = 0.5 * (1. + xi(0));
+    dphi(0,0) = -0.5;
+    dphi(0,1) =  0.5;
+
+    int count = 2;
+    int is;
+    for (is = 2; is < 3; is++) {
+        if(orders[is] == 2){
+            int is1 = SideNodeLocIndex(is, 0);
+            int is2 = SideNodeLocIndex(is, 1);
+            phi[is] = 4.*phi[is1] * phi[is2];
+            dphi(0, is) = 4.*(dphi(0, is1) * phi[is2] + phi[is1] * dphi(0, is2));
+            count++;
+        } else if (orders[is] != 1) DebugStop();
+    }
+
+    if(count != nshape) DebugStop();
+    for(int is = 3 ; is< nSides; is++) if(orders[is] != 1 && orders[is] != 2) DebugStop();
 }
 
 /// returns the number of shape functions associated with a side

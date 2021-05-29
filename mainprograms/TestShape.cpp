@@ -167,6 +167,7 @@ static GeoMesh *BuildGMesh(MElementType eltype)
     {
         int nsidenodes = gel->NSideNodes(is);
         VecInt sidenodes(nsidenodes);
+        sidenodes[0] = 0;
         for(int i=0; i<nsidenodes; i++) sidenodes[i] = gel->SideNodeIndex(is, i);
         AddElement(gel->Type(is), sidenodes, is+1, gmesh);
     }

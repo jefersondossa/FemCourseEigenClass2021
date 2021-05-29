@@ -66,9 +66,31 @@ void Assemble::Compute(MatrixDouble &globmat, MatrixDouble &rhs) {
 //        ek.Print();
 //        ef.Print();
 
+        int ndof = cel->NDOF();
+        VecInt iglob(ne, 0);
+        int ni = 0;
+        for (int i = 0; i < ndof; i++) {
+            int dofindex = cel->GetDOFIndex(i);
+            DOF dof = cmesh->GetDOF(dofindex);
+            for (int j = 0; j < dof.GetNShape() * dof.GetNState(); j++) {
+                iglob[ni] = dof.GetFirstEquation() + j;
+                ni++;
+            }
+        }
+
+        for (int i = 0; i < ek.rows(); i++) {
+            IG = iglob[i];
+            rhs(IG, 0) += ef(i, 0);           
+
+            for (int j = 0; j < ek.rows(); j++) {
+                JG = iglob[j];
+                globmat(IG, JG) += ek(i, j);
+            }
+        }
+
         // Implement the assembly method
-        std::cout << "Please implement me\n";
-        DebugStop();
+        // std::cout << "Please implement me\n";
+        // DebugStop();
 
     }
 }

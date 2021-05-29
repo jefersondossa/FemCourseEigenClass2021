@@ -104,12 +104,12 @@ void GeomTetrahedron::GetNodes(VecInt &nodes) const {
 }
 
 int GeomTetrahedron::NodeIndex(int node) const {
+    // if (fNodeIndices.size() < node) DebugStop();
     return fNodeIndices[node];
 }
 
 int GeomTetrahedron::NumNodes() {
     return nCorners;
-
 }
 
 GeoElementSide GeomTetrahedron::Neighbour(int side) const {

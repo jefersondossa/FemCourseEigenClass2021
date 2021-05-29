@@ -38,7 +38,7 @@ void exact(const VecDouble &point,VecDouble &val, MatrixDouble &deriv);
 int main ()
 {
     
-    
+    std::cout << "asdasfef e" << std::endl;
     CompMesh mesh;
     int order = 3;
     double h=1.0/8.0;

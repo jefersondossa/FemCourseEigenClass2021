@@ -77,7 +77,6 @@ void GeoMesh::BuildConnectivity() {
     VecInt vetor(numnodes);
     vetor.setConstant(-1);
 
-
     int64_t nelem = this->NumElements();
     int64_t iel = 0;
 
@@ -92,7 +91,6 @@ void GeoMesh::BuildConnectivity() {
             gel->SetNeighbour(is, gelside);
         }
     }
-
     // set the connectivity along the nodes
     for (iel = 0; iel < nelem; iel++) {
         GeoElement *gel = Elements[iel];
@@ -104,11 +102,10 @@ void GeoMesh::BuildConnectivity() {
             if (vetor[nodeindex] == -1) {
                 vetor[nodeindex] = iel;
                 sides[nodeindex] = in;
-
+                
             } else {
                 GeoElementSide one(gel, in);
                 GeoElementSide two(Element(vetor[nodeindex]), sides[nodeindex]);
-
                 GeoElementSide neighbour = one.Neighbour();
                 if (neighbour.Element() == 0) DebugStop();
 
@@ -119,7 +116,6 @@ void GeoMesh::BuildConnectivity() {
         }
     }
     // at this point all neighbours along the nodes have been initialized
-    
     // the line, triangle or quad neighbours are identified by the intersection of neighbours along nodes
     for (iel = 0; iel < nelem; iel++) {
         GeoElement *gel = Elements[iel];
