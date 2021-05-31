@@ -191,6 +191,7 @@ void VTKGeoMesh::PrintGMeshVTK(GeoMesh * gmesh, const std::string &filename)
         for(int t = 0; t < elNnodes; t++)
         {
             VecDouble xi(ParamCo.cols()), xco(3);
+            xco.setZero();
             for(int i=0; i< xi.size(); i++) xi[i] = ParamCo(t,i);
             gel->X(xi, xco);
             for (int i=0; i<3; i++) {

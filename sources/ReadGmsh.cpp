@@ -296,6 +296,11 @@ static std::string GetFileVersion(const std::string& file_name){
 
 void ReadGmsh::Read4(GeoMesh &gmesh, const std::string &file_name){
     int max_dimension = 0;
+    // vector of 4 positions
+    // first index is the dimension
+    // for each dimension there is a map
+    // I guess that the first key of the map is the entity tag as it apears in gmesh
+    // I guess that the second key of the map is the number as it appears in .gmsh file
     std::array<std::map<int, std::vector<int>>,4> m_dim_entity_tag_and_physical_tag;
     std::array<std::map<int, int>,4> m_dim_physical_tag_and_physical_tag;
 
@@ -553,7 +558,7 @@ void ReadGmsh::Read4(GeoMesh &gmesh, const std::string &file_name){
                             read >> node_identifiers[i_node];
                         }
                         /// Internally the nodes index and element index is converted to zero based indexation
-                        InsertElement(&gmesh, physical_identifier, entity_el_type, el_identifier, node_identifiers);
+                        InsertElement(&gmesh, gmsh_physical_identifier, entity_el_type, el_identifier, node_identifiers);
                         
                     }else{
                         read.getline(buf, 1024);
