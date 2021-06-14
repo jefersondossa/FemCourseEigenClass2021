@@ -46,20 +46,6 @@ int main ()
     double h=1.0/8.0;
 
     CreateTestMesh(mesh,order,h);
-
-    std::ofstream myfile("Mesh.txt");
-    mesh.SetDefaultOrder(order);
-    MatrixDouble perm(1,1);
-    perm(0,0) = 1.;
-    Poisson *mat = new Poisson(1,perm);
-    // mesh.SetNumberMath(1);
-    // mesh.SetMathStatement(1,mat);
-
-    mesh.AutoBuild();
-    std::ofstream myfile2("CMesh.txt");
-    mesh.Print(myfile2);
-
-    VTKGeoMesh::PrintCMeshVTK(&mesh,2, "cMesh.vtk");
     
     Analysis Analysis(&mesh);
     Analysis.RunSimulation();
@@ -97,17 +83,6 @@ void exact(const VecDouble &point,VecDouble &val, MatrixDouble &deriv){
 
 void CreateTestMesh(CompMesh &mesh, int order, double h)
 {
-  ReadGmsh *reader;
-  reader = new ReadGmsh();
-  GeoMesh gmesh;
-  reader -> Read(gmesh,"/home/jefersondossa/NeoPz/FemCourseEigenClass2021/meshes/1element.msh");
-  mesh.SetGeoMesh(&gmesh);
-  mesh.SetNumberElement(gmesh.NumElements());
-
-  std::stringstream text_name;
-  text_name   << "geometry" << ".txt";
-  std::ofstream textfile(text_name.str().c_str());
-  gmesh.Print(textfile);
-  VTKGeoMesh::PrintGMeshVTK(&gmesh, "geometry.vtk");
+  
 
 }

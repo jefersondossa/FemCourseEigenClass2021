@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <math.h>
+#include <fstream>
+
 #include "IntRule.h"
 #include "IntRule1d.h"
 #include "IntRuleQuad.h"
@@ -14,55 +16,74 @@
 #include "DataTypes.h"
 #include "Analysis.h"
 #include "VTKGeoMesh.h"
+#include "Poisson.h"
+#include "L2Projection.h"
+#include "CompMesh.h"
 #include "ReadGmsh.h"
 
 using std::cout;
 using std::endl;
 using std::cin;
 
-int main ()
-{
-    VecDouble phir(2),phitheta(2);
-    MatrixDouble dphir(1,2),dphitheta(1,2);
-    VecDouble xp;
-    int order = 1;
-    MatrixDouble jac(2,2);
+auto exactSol = [](const VecDouble &loc,
+  VecDouble &u,
+  MatrixDouble &gradU){
+  const auto &x=loc[0];
+  const auto &y=loc[1];
+  
+  // const auto &d = 1.; // distance betweel injection and production wells
+  u[0]= x*x-y*y;//log(hypot(x,y)) - log(hypot(x-d,y-d)) - log(hypot(x+d,y-d)) - log(hypot(x-d,y+d)) - log(hypot(x+d,y+d));
+  gradU(0,0) = 2.*x;//x/(x*x+y*y) - (x-d)/(pow(x-d,2)+pow(y-d,2)) - (x+d)/(pow(x+d,2)+pow(y-d,2)) - (x-d)/(pow(x-d,2)+pow(y+d,2)) - (x+d)/(pow(x+d,2)+pow(y+d,2));
+  gradU(1,0) = -2.*y;//y/(x*x+y*y) - (y-d)/(pow(x-d,2)+pow(y-d,2)) - (y-d)/(pow(x+d,2)+pow(y-d,2)) - (y+d)/(pow(x-d,2)+pow(y+d,2)) - (y+d)/(pow(x+d,2)+pow(y+d,2));
+  // gradU(2,0) = 0;//optional
+};
 
-    double Integral = 0;
-    IntRuleQuad rule(1);
-    int np = rule.NPoints();
-    for(int ip=0; ip<np; ip++)
-    {
-        VecDouble xip(2);
-        double wp;
-        rule.Point(ip, xip, wp);
-        
-        double r = (xip[0]-1.)/2.+5.*(xip[0]+1.)/2.;
-        double drdxi = 1./2.+5./2.;
-        double theta = M_PI/2.*(xip[1]+1.)/2.;
-        double dthetadeta = M_PI/4.;
-        // x = r cos(theta)
-        // y = r sin(theta)
-        // dxdr = r' cos(theta)
-        jac(0,0) = drdxi*cos(theta);
-        // dxdtheta = -r sin(theta) theta'
-        jac(0,1) = -r*sin(theta)*dthetadeta;
-        // dydr = r' sin(theta)
-        jac(1,0) = drdxi*sin(theta);
-        // dydtheta = r cos(theta) theta'
-        jac(1,1) = r*cos(theta)*dthetadeta;
-        double detjac = std::abs(jac.determinant());
-        Integral += detjac * wp;
-    }
-    
-    std::cout << "order = " << order << " integral aproximada " << Integral <<
-    " erro " << 6.*M_PI-Integral << std::endl;
-    
+int main (){
+
+    ReadGmsh *reader;
+    reader = new ReadGmsh();
     GeoMesh gmesh;
-    ReadGmsh read;
-    read.Read(gmesh,"quads.msh");
-    VTKGeoMesh plotmesh;
-    plotmesh.PrintGMeshVTK(&gmesh, "quads.vtk");
-    
+    reader -> Read(gmesh,"../meshes/1element.msh");
+    std::stringstream text_name;
+    text_name << "geometry.txt";
+    std::ofstream textfile(text_name.str().c_str());
+    gmesh.Print(textfile);
+    VTKGeoMesh::PrintGMeshVTK(&gmesh, "geometry.vtk");
+
+    CompMesh cmesh(&gmesh);
+    MatrixDouble perm(2,2);
+    perm.setZero();
+    perm(0,0) = 1.;
+    perm(1,1) = 1.;
+    Poisson *mat1 = new Poisson(1,perm);
+    MatrixDouble proj(1,1), val1(1,1), val2(1,1);
+    proj.setZero();
+    val1.setZero();
+    val2.setZero();
+    L2Projection *bc_bottom = new L2Projection(0,2,proj,val1,val2);
+    L2Projection *bc_right = new L2Projection(0,3,proj,val1,val2);
+    L2Projection *bc_top = new L2Projection(0,4,proj,val1,val2);
+    L2Projection *bc_left = new L2Projection(0,5,proj,val1,val2);
+    L2Projection *bc_point = new L2Projection(0,6,proj,val1,val2);
+    bc_bottom->SetExactSolution(exactSol);
+    bc_right->SetExactSolution(exactSol);
+    bc_top->SetExactSolution(exactSol);
+    bc_left->SetExactSolution(exactSol);
+    bc_point->SetExactSolution(exactSol);
+    std::vector<MathStatement *> mathvec = {0,mat1,bc_bottom,bc_right,bc_top,bc_left,bc_point};
+
+
+    cmesh.SetMathVec(mathvec);
+
+    cmesh.AutoBuild();
+    cmesh.Resequence();
+
+    VTKGeoMesh::PrintCMeshVTK(&cmesh,2, "cmesh.vtk");
+
+
+    Analysis Analysis(&cmesh);
+    Analysis.RunSimulation();
+
+
     return 0;
 }

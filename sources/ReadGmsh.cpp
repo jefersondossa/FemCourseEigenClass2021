@@ -24,7 +24,7 @@
 
 static void InsertElement(GeoMesh &gmesh, int elindex, std::ifstream & line);
 static std::string GetFileVersion(const std::string& file_name);
-GeoElement* InsertElement(GeoMesh * gmesh, int & physical_identifier, int & el_type, int & el_identifier, std::vector<int> & node_identifiers);
+GeoElement* InsertElement(GeoMesh * gmesh, int & physical_identifier, int & el_type, int  el_identifier, std::vector<int> & node_identifiers);
 
 int GetNumberofNodes(int & el_type){
     
@@ -512,6 +512,7 @@ void ReadGmsh::Read4(GeoMesh &gmesh, const std::string &file_name){
             read >> min_element_tag;
             read >> max_element_tag;
             gmesh.SetNumElements(n_elements);
+            int64_t elcount = 0;
             
             int entity_tag, entity_dim, entity_el_type, entity_elements;
             for (int64_t i_block = 0; i_block < n_entity_blocks; i_block++)
@@ -558,7 +559,8 @@ void ReadGmsh::Read4(GeoMesh &gmesh, const std::string &file_name){
                             read >> node_identifiers[i_node];
                         }
                         /// Internally the nodes index and element index is converted to zero based indexation
-                        InsertElement(&gmesh, gmsh_physical_identifier, entity_el_type, el_identifier, node_identifiers);
+                        InsertElement(&gmesh, gmsh_physical_identifier, entity_el_type, elcount, node_identifiers);
+                        elcount++;
                         
                     }else{
                         read.getline(buf, 1024);
@@ -589,6 +591,7 @@ void ReadGmsh::Read4(GeoMesh &gmesh, const std::string &file_name){
     }
 
     gmesh.SetDimension(max_dimension);
+    gmesh.BuildConnectivity();
 }
 
 /** @brief Insert elements following msh file format */
@@ -967,7 +970,7 @@ void ReadGmsh::Read(GeoMesh& gmesh, const std::string& file_name){
 
 
 
-GeoElement* InsertElement(GeoMesh * gmesh, int & physical_identifier, int & el_type, int & el_identifier, std::vector<int> & node_identifiers){
+GeoElement* InsertElement(GeoMesh * gmesh, int & physical_identifier, int & el_type, int  el_identifier, std::vector<int> & node_identifiers){
     
     VecInt Topology;
     int n_nodes = node_identifiers.size();
@@ -977,7 +980,8 @@ GeoElement* InsertElement(GeoMesh * gmesh, int & physical_identifier, int & el_t
         Topology[k_node] = node_identifiers[k_node]-GMSH_SHIFT;
     }
     GeoElement* gel = nullptr;
-    el_identifier -= GMSH_SHIFT;
+//    el_identifier -= GMSH_SHIFT;
+    
     switch (el_type) {
         case 1:
         {   // Line
@@ -1071,7 +1075,7 @@ GeoElement* InsertElement(GeoMesh * gmesh, int & physical_identifier, int & el_t
             break;
         default:
         {
-            std::cout << "Element not impelemented." << std::endl;
+            std::cout << "Element not implemented." << std::endl;
             DebugStop();
         }
             break;
