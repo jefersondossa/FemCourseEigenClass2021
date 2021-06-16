@@ -144,7 +144,7 @@ public:
     DOF &GetDOF(int i) const;
     
     // Return the number of degree of freedom
-    virtual int NDOF() const = 0;
+    virtual int64_t NDOF() const = 0;
     
     // Return the number of shape functions stored in the DOF data structure
     virtual int NShapeFunctions(int doflocindex) const = 0;

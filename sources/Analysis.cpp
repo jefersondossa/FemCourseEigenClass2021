@@ -74,7 +74,7 @@ void Analysis::RunSimulation() {
 //    K.Solve_LU(F);
     std::cout << "Solution computed!" << std::endl;
     
-    Solution = F;
+    // Solution = F;
 
     int solsize = Solution.rows();
     VecDouble sol(solsize);

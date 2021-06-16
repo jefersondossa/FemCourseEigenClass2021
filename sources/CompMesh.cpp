@@ -77,15 +77,15 @@ MathStatement *CompMesh::GetMath(int matindex) const {
     return mathstatements[matindex];
 }
 
-std::vector<CompElement *> CompMesh::GetElementVec() const {
+const std::vector<CompElement *> &CompMesh::GetElementVec() const {
     return compelements;
 }
 
-std::vector<DOF> CompMesh::GetDOFVec() const {
+const std::vector<DOF> &CompMesh::GetDOFVec() const {
     return dofs;
 }
 
-std::vector<MathStatement *> CompMesh::GetMathVec() const {
+const std::vector<MathStatement *> &CompMesh::GetMathVec() const {
     return mathstatements;
 }
 

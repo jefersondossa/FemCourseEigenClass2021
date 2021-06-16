@@ -44,29 +44,29 @@ void GeoMesh::SetNumElements(int numelements) {
     Elements.resize(numelements);
 }
 
-int GeoMesh::NumNodes() const {
+int64_t GeoMesh::NumNodes() const {
     return Nodes.size();
 }
 
-int GeoMesh::NumElements() const {
+int64_t GeoMesh::NumElements() const {
     return Elements.size();
 }
 
-const GeoNode &GeoMesh::Node(int node) const {
+const GeoNode &GeoMesh::Node(int64_t node) const {
     if(node <0 || node >= Nodes.size()) DebugStop();
     return Nodes[node];
 }
 
-GeoNode &GeoMesh::Node(int node) {
+GeoNode &GeoMesh::Node(int64_t node) {
     return Nodes[node];
 }
 
-void GeoMesh::SetElement(int elindex, GeoElement *gel) {
+void GeoMesh::SetElement(int64_t elindex, GeoElement *gel) {
     if(elindex >= Elements.size()) DebugStop();
     Elements[elindex] = gel;
 }
 
-GeoElement *GeoMesh::Element(int elindex) const {
+GeoElement *GeoMesh::Element(int64_t elindex) const {
     if(elindex < 0 || elindex >= Elements.size()) DebugStop();
     return Elements[elindex];
 }
@@ -74,7 +74,7 @@ GeoElement *GeoMesh::Element(int elindex) const {
 void GeoMesh::BuildConnectivity() {
     // for each node : an element index / side connected to the node
     // if the value == -1, the datastructure hasn't been initialized yet
-    int numnodes = NumNodes();
+    auto numnodes = NumNodes();
     VecInt sides(numnodes);
     sides.setConstant(-1);
     VecInt vetor(numnodes);

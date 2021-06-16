@@ -56,43 +56,35 @@ void L2Projection::SetProjectionMatrix(const MatrixDouble &proj) {
 }
 
 void L2Projection::Contribute(IntPointData &data, double weight, MatrixDouble &EK, MatrixDouble &EF) const {
+
     int nstate = this->NState();
-    int nshape = data.phi.size();
-
-    VecDouble result(data.x.size());
-    MatrixDouble deriv(data.x.size(), data.x.size());
-
-    // if (!SolutionExact)
-
-    VecDouble val2(data.x.size());
-    val2(0) =  BCVal2(0);
-    if (SolutionExact) {
-        SolutionExact(data.x, result, deriv);
-        val2(0) = result(0);
+    if(nstate != 1)
+    {
+        std::cout << "Please implement me\n";
+        DebugStop();
     }
-    VecDouble phi = data.phi;
+    auto nshape = data.phi.size();
+    if(EK.rows() != nshape || EF.rows() != nshape)
+    {
+        DebugStop();
+    }
 
-    // std::cout << "BCVAL \n" << result<< std::endl;
-    std::cout << "BCVAL2 \n" << val2<< std::endl;
-    std::cout << "phi, weight \n" << phi << " " << weight << std::endl;
-
+    VecDouble result(nstate);
+    result[0] = Val2()(0,0);
+    MatrixDouble deriv(data.x.size(), nstate);
+    deriv.setZero();
     
+    if(SolutionExact)
+    {
+        SolutionExact(data.x, result, deriv);
+    }
 
     switch (this->GetBCType()) {
         case 0:
         {
-            EF += (MathStatement::gBigNumber * val2(0) * weight) * data.phi;
-            EK += (MathStatement::gBigNumber * weight) * data.phi * data.phi.transpose();
-            // for(auto iv = 0; iv < nstate; iv++){
-			// 	for(auto in = 0 ; in < nshape; in++) {
-			// 		EF(nstate*in+iv,0) += 100000000 * val2(iv) * phi(in) * weight;
-			// 		for (auto jn = 0 ; jn < nshape; jn++) {
-			// 			EK(nstate*in+iv,nstate*jn+iv) += phi(in) * phi(jn) * weight;
-			// 		}//jn
-			// 	}//in
-			// }//iv
-            // std::cout << "Matrix = \n" << EK << std::endl;
-            // std::cout << "Rhs = \n" << EF << std::endl;
+            EF += (1.e10 * result(0) * weight) * data.phi;
+            EK += (1.e10 * weight) * data.phi * data.phi.transpose();
+
             break;
         }
 
@@ -100,7 +92,7 @@ void L2Projection::Contribute(IntPointData &data, double weight, MatrixDouble &E
         {
             for(auto iv = 0; iv < nstate; iv++){
 				for(auto in = 0 ; in < nshape; in++) {
-					EF(nstate*in+iv,0) += val2(iv) * phi(in) * weight;
+					EF(nstate*in+iv,0) += result(iv) * data.phi(in) * weight;
 				}//in
 			}//iv
             break;
@@ -162,30 +154,23 @@ void L2Projection::PostProcessSolution(const IntPointData &data, const int var, 
         case 0: //None
         {
             std::cout << " Var index not implemented " << std::endl;
-            // return;
             DebugStop();
         }
+
         case 1: //ESol
         {
-            //+++++++++++++++++
-            // Please implement me
-            std::cout << "\nPLEASE IMPLEMENT ME\n" << __PRETTY_FUNCTION__ << std::endl;
-            return;
-            DebugStop();
-            //+++++++++++++++++
+            Solout.resize(nstate);
+            Solout=data.solution;
         }
             break;
 
         case 2: //EDSol
         {
-            //+++++++++++++++++
-            // Please implement me
-            std::cout << "\nPLEASE IMPLEMENT ME\n" << __PRETTY_FUNCTION__ << std::endl;
-            return;
-            DebugStop();
-            //+++++++++++++++++
+            Solout.resize(var);
+            Solout=data.dsoldx;
         }
             break;
+
         default:
         {
             std::cout << " Var index not implemented " << std::endl;

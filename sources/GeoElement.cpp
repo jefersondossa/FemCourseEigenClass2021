@@ -63,6 +63,9 @@ void GeoElement::Jacobian(const MatrixDouble &gradx, MatrixDouble &jac, MatrixDo
     jac.setZero();
 
     switch (dim) {
+        case 0:
+            detjac = 1.;
+            break;
         case 1:
         {
             axes.resize(dim, 3);

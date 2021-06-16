@@ -120,68 +120,37 @@ void Poisson::ContributeError(IntPointData &data, VecDouble &u_exact, MatrixDoub
 }
 
 void Poisson::Contribute(IntPointData &data, double weight, MatrixDouble &EK, MatrixDouble &EF) const {
+
     VecDouble phi = data.phi;
     MatrixDouble dphi = data.dphidx;
     MatrixDouble axes = data.axes;
     MatrixDouble dphi2, dphi3;
 
-    this->Axes2XYZ(dphi, dphi2, axes);
+    dphi2 = data.axes.transpose()*data.dphidx;
     dphi3 = dphi2.transpose();
 
-    int nshape = phi.size();
-    int nstate = this->NState();
-    int dim = dphi.rows();
-
     MatrixDouble perm(3, 3);
-    std::function<void(const VecDouble &co, VecDouble & result) > force;
-
     perm = this->GetPermeability();
-    force = this->GetForceFunction();
+    double res = 0.;
 
-    VecDouble res(nstate);
+    auto force = this->GetForceFunction();
     if(force)
     {
-        force(data.x, res);
+        VecDouble resloc(1);
+        force(data.x, resloc);
+        res = resloc[0];
     }
 
-    EF += phi * res[0] * weight;
+    EF += phi * res * weight;
     EK += dphi3 * perm * dphi2 * weight; 
 
-
-	// for(int i = 0; i < nshape; i++){
-	// 	for(int j = 0; j < nshape; j++){
-    //         double dphiIdphiJ = 0.;
-    //         for(int x = 0; x < dim; x++) dphiIdphiJ += dphi(x,i) * dphi(x,j);
-	// 		for(int ivi = 0; ivi < nstate; ivi++){
-    //             const int posI = nstate*i+ivi;
-    //             const int posJ = nstate*j+ivi;
-    //             EK(posI, posJ) += weight * dphiIdphiJ * perm(0,0);
-	// 		}//ivi
-	// 	}//for j
-	// 	for(int ivi = 0; ivi < nstate; ivi++){
-	// 		const int posI = nstate*i+ivi;
-    //         EF(posI,0) += weight*phi(i)*res(ivi);
-	// 	}//ivi
-	// }//for i
-
-    // std::cout << "DPHI = \n" << data.dphidksi << "\n\n"<< weight << std::endl;
-    // std::cout << "DPHI3 = \n" << dphi << "\n\n"<< weight << std::endl;
-    // std::cout << "MATRIX = \n" << EK << std::endl;
-
-    //+++++++++++++++++
-    // Please implement me
-    // std::cout << "\nPLEASE IMPLEMENT ME\n" << __PRETTY_FUNCTION__ << std::endl;
-    // DebugStop();
-    //+++++++++++++++++
 }
 
 void Poisson::PostProcessSolution(const IntPointData &data, const int var, VecDouble &Solout) const {
-    VecDouble sol = data.solution;
-    int solsize = sol.size();
+
     int rows = data.dsoldx.rows();
     int cols = data.dsoldx.cols();
-    MatrixDouble gradu(rows, cols);
-    gradu = data.dsoldx;
+   
     int nstate = this->NState();
 
     switch (var) {
@@ -195,18 +164,14 @@ void Poisson::PostProcessSolution(const IntPointData &data, const int var, VecDo
         case 1: //ESol
         {
             Solout.resize(nstate);
-            for (int i=0; i<nstate; i++) {
-                Solout[i] = sol[i];
-            }
+            Solout=data.solution;
         }
             break;
 
         case 2: //EDSol
         {
             Solout.resize(var);
-            for (int i=0; i<var; i++) {
-                Solout[i] = gradu(i);
-            }
+            Solout=data.dsoldx;
         }
             break;
         case 3: //EFlux
@@ -214,7 +179,7 @@ void Poisson::PostProcessSolution(const IntPointData &data, const int var, VecDo
             Solout.resize(Dimension());
             auto perm = this->GetPermeability();
             for (int i=0; i<Dimension(); i++) {
-                Solout[i] = gradu(i) * perm(0,0);
+                Solout[i] = data.dsoldx(i) * perm(i,i);
             }
         }
             break;

@@ -95,7 +95,7 @@ public:
     }
 
     // Get Default Order
-    int GetDefaultOrder()
+    int64_t GetDefaultOrder()
     {
         return DefaultOrder;
     }
@@ -110,13 +110,13 @@ public:
     MathStatement *GetMath(int matindex) const;
 
     // Return the vector with computational elements
-    std::vector<CompElement *> GetElementVec() const;
+    const std::vector<CompElement *> &GetElementVec() const;
     
     // Return the vector with degrees of freedom
-    std::vector<DOF> GetDOFVec() const;
+    const std::vector<DOF> &GetDOFVec() const;
     
     // Return the vector with math statement objects
-    std::vector<MathStatement *> GetMathVec() const;
+    const std::vector<MathStatement *> &GetMathVec() const;
     
     // Set the vector with computational elements
     void SetElementVec(const std::vector<CompElement *> &vec);

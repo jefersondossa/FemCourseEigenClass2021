@@ -165,7 +165,7 @@ int64_t CompElementTemplate<Shape>::GetDOFIndex(int i) const {
 }
 
 template<class Shape>
-int CompElementTemplate<Shape>::NDOF() const {
+int64_t CompElementTemplate<Shape>::NDOF() const {
     return dofindexes.size();
 }
 

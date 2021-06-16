@@ -93,10 +93,9 @@ int main (){
     Analysis Analysis(&cmesh);
     Analysis.RunSimulation();
 
-    std::cout << "Matrix = \n" << Analysis.GlobalSystem << std::endl;
-
-    std::cout << "Rhs = \n" << Analysis.RightHandSide << std::endl;
-    std::cout << "Solution = \n" << Analysis.Solution << std::endl;
+    // std::cout << "Matrix = \n" << Analysis.GlobalSystem << std::endl;
+    // std::cout << "Rhs = \n" << Analysis.RightHandSide << std::endl;
+    // std::cout << "Solution = \n" << Analysis.Solution << std::endl;
 
     VTKGeoMesh::PrintCMeshVTK(&cmesh,2, "cmesh.vtk");
     PostProcess *post;

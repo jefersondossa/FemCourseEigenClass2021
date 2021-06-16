@@ -200,8 +200,6 @@ void CompElement::CalcStiff(MatrixDouble &ek, MatrixDouble &ef) const {
         weight *= fabs(data.detjac);
 
         material->Contribute(data, weight, ek, ef);
-        // std::cout << "Please insert the correct code\n";
-        // DebugStop();
     }
 }
 

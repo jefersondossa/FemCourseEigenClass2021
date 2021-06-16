@@ -46,11 +46,15 @@ void Assemble::OptimizeBandwidth() {
 }
 
 void Assemble::Compute(MatrixDouble &globmat, MatrixDouble &rhs) {
-    int nelem = cmesh->GetGeoMesh()->NumElements();
-    int ne = this->NEquations();
-
-    int IG = 0, JG = 0;
-
+    
+    auto neq = NEquations();
+    
+    globmat.resize(neq, neq);
+    globmat.setZero();
+    rhs.resize(neq, 1);
+    rhs.setZero();
+    
+    int64_t nelem = cmesh->GetGeoMesh()->NumElements();
     for (int el = 0; el < nelem; el++) {
         CompElement *cel = cmesh->GetElement(el);
 
@@ -67,7 +71,7 @@ void Assemble::Compute(MatrixDouble &globmat, MatrixDouble &rhs) {
 //        ef.Print();
 
         int ndof = cel->NDOF();
-        VecInt iglob(ne, 1);
+        VecInt iglob(neq, 1);
         int ni = 0;
         for (int i = 0; i < ndof; i++) {
             int dofindex = cel->GetDOFIndex(i);
@@ -79,17 +83,14 @@ void Assemble::Compute(MatrixDouble &globmat, MatrixDouble &rhs) {
         }
 
         for (int i = 0; i < ek.rows(); i++) {
-            IG = iglob[i];
+            int IG = iglob[i];
             rhs(IG, 0) += ef(i, 0);           
 
             for (int j = 0; j < ek.rows(); j++) {
-                JG = iglob[j];
+                int JG = iglob[j];
                 globmat(IG, JG) += ek(i, j);
             }
         }
 
-        // Implement the assembly method
-        // std::cout << "Please implement me\n";
-        // DebugStop();
     }
 }
