@@ -37,12 +37,13 @@ void Geom0d::X(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x) {
 
 void Geom0d::GradX(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x, MatrixDouble &gradx) {
     if(xi.size() != Dimension) DebugStop();
-    if(x.size() != NodeCo.rows()) DebugStop();
+    if(x.size() < NodeCo.rows()) DebugStop();
     if(NodeCo.cols() != nCorners) DebugStop();
     int nrow = NodeCo.rows();
     int ncol = nCorners;
 
-    gradx.resize(nrow, 1);
+    // gradx.resize(nrow, 1);
+    // if (gradx.rows()<nrow) gradx.resize(1,nrow);
     gradx.setZero();
 
     VecDouble phi(1);
@@ -51,6 +52,7 @@ void Geom0d::GradX(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x, Matr
     for (int i = 0; i < ncol; i++) {
         for (int j = 0; j < nrow; j++) {
             x[i] = NodeCo(i, 0);
+            // gradx(0,j) += NodeCo(j,i) * dphi(0,i);
         }
     }
 }

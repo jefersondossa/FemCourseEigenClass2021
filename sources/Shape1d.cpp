@@ -17,10 +17,10 @@ void Shape1d::Shape(const VecDouble &xi, VecInt &orders, VecDouble &phi, MatrixD
         std::cout << "Shape1d::Shape: Invalid dimension for arguments: order\n";
         DebugStop();
     }
-    if (orders[0] > 1 || orders[1] > 1) {
-        std::cout << "Shape1d::Shape: Invalid dimension for arguments: order\n";
-        DebugStop();
-    }
+    // if (orders[0] > 1 || orders[1] > 1) {
+    //     std::cout << "Shape1d::Shape: Invalid dimension for arguments: order\n";
+    //     DebugStop();
+    // }
     if (orders[2] > 2) {
         std::cout << "Shape1d::Shape: Please implement it for order > 2\n";
         DebugStop();

@@ -40,8 +40,8 @@ void Geom1d::X(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x) {
     int nrow = NodeCo.rows();
     int ncol = NodeCo.cols();
 
-    for (int i = 0; i < ncol; i++) {
-        for (int j = 0; j < nrow; j++) {
+    for (int i = 0; i < nCorners; i++) {
+        for (int j = 0; j < Dimension; j++) {
             x[j] += NodeCo(j,i) * phi[i];
         }
     }
@@ -49,28 +49,28 @@ void Geom1d::X(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x) {
 
 void Geom1d::GradX(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x, MatrixDouble &gradx) {
     if(xi.size() != Dimension) DebugStop();
-    if(x.size() != NodeCo.rows()) DebugStop();
+    if(x.size() < NodeCo.rows()) DebugStop();
     if(NodeCo.cols() != nCorners) DebugStop();
-    // gradx.resize(Dimension, 1);
     gradx.setZero();
     x.setZero();
     int nrow = NodeCo.rows();
     int ncol = NodeCo.cols();
-    if (gradx.rows()<nrow) gradx.resize(nrow,1);
+    // if (gradx.cols()<nrow) gradx.resize(1,nrow);
 
     VecDouble phi(nCorners);
     MatrixDouble dphi(Dimension, nCorners);
     Shape(xi, phi, dphi);
-
-    std::cout << "SIZES " << gradx.rows() << " " << gradx.cols() << std::endl;
-    std::cout << "NodeCo " << NodeCo.rows() << " " << NodeCo.cols() << std::endl;
-    std::cout << "dphi " << dphi.rows() << " " << dphi.cols() << std::endl;
-    for (int i = 0; i < ncol; i++) {
-        for (int j = 0; j < nrow; j++) {
+    
+    for (int i = 0; i < nCorners; i++) {
+        for (int j = 0; j < ncol; j++) {
             x[j] += NodeCo(j,i) * phi[i];
-            gradx(j, 0) += NodeCo(j, i) * dphi(0, i);
+            // gradx(0,j) += NodeCo(j, i) * dphi(0, i);
         }
     }
+    gradx = (NodeCo*dphi.transpose()).transpose();
+    // std::cout << "NODECO = \n" <<NodeCo<< std::endl;
+    // std::cout << "dphi = \n" <<dphi<< std::endl;
+    // std::cout << "G_X = \n" <<gradx<< std::endl;
 }
 
 void Geom1d::SetNodes(const VecInt &nodes) {

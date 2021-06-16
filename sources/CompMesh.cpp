@@ -201,7 +201,7 @@ void CompMesh::Print(std::ostream & out) {
     
     out << "\n\tMaterial Information" << std::endl;
     int64_t nummat = this->GetMathVec().size();
-    for (i = 0; i < nummat; i++) {
+    for (i = 1; i < nummat; i++) {
         MathStatement *mat = this->GetMath(i);
         out << "Material index: " << i << std::endl;
         if (!mat) {

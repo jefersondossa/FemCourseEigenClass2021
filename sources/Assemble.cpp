@@ -67,7 +67,7 @@ void Assemble::Compute(MatrixDouble &globmat, MatrixDouble &rhs) {
 //        ef.Print();
 
         int ndof = cel->NDOF();
-        VecInt iglob(ne, 0);
+        VecInt iglob(ne, 1);
         int ni = 0;
         for (int i = 0; i < ndof; i++) {
             int dofindex = cel->GetDOFIndex(i);

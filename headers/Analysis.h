@@ -35,6 +35,8 @@ class Analysis
 {
 protected:
     CompMesh *cmesh;
+
+public:
     
     MatrixDouble Solution;
     

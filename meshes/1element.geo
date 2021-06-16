@@ -19,9 +19,12 @@ Recombine Surface{1};
 
 
 //+
-Physical Surface("1") = {1};
-Physical Curve("2") = {1};//Bottom Line
-Physical Curve("3") = {2};//Right
-Physical Curve("4") = {3};//Top
-Physical Curve("5") = {4};//Left
-Physical Point("6") = {1};
+Physical Surface(1) = {1};
+//+
+Physical Curve(2) = {1};
+//+
+Physical Curve(3) = {2};
+//+
+Physical Curve(4) = {3};
+//+
+Physical Curve(5) = {4};

@@ -46,7 +46,7 @@ void GeomTriangle::Shape(const VecDouble& xi, VecDouble& phi, MatrixDouble& dphi
 
 void GeomTriangle::X(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x) {
     if(xi.size() != Dimension) DebugStop();
-    if(x.size() != NodeCo.rows()) DebugStop();
+    if(x.size() < NodeCo.rows()) DebugStop();
     if(NodeCo.cols() != nCorners) DebugStop();
     VecDouble phi(nCorners);
     MatrixDouble dphi(Dimension, nCorners);
@@ -58,7 +58,6 @@ void GeomTriangle::X(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x) {
     int ncol = NodeCo.cols();
 
     for (int i = 0; i < nrow; i++) {
-        x[i] = 0.0;
         for (int j = 0; j < ncol; j++) {
             x[i] += phi[j] * NodeCo(i, j);
         }
@@ -67,11 +66,11 @@ void GeomTriangle::X(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x) {
 
 void GeomTriangle::GradX(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x, MatrixDouble &gradx) {
     if(xi.size() != Dimension) DebugStop();
-    if(x.size() != NodeCo.rows()) DebugStop();
+    if(x.size() < NodeCo.rows()) DebugStop();
     if(NodeCo.cols() != nCorners) DebugStop();
-    gradx.resize(3, 3);
+    // gradx.resize(3, 3);
     gradx.setZero();
-    x.resize(Dimension);
+    // x.resize(Dimension);
     x.setZero();
     int nrow = NodeCo.rows();
     int ncol = NodeCo.cols();
@@ -79,11 +78,11 @@ void GeomTriangle::GradX(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x
     VecDouble phi(nCorners);
     MatrixDouble dphi(Dimension, nCorners);
     Shape(xi, phi, dphi);
-    for (int i = 0; i < ncol; i++) {
-        for (int j = 0; j < nrow; j++) {
+    for (int i = 0; i < nCorners; i++) {
+        for (int j = 0; j < Dimension; j++) {
             x[j] += NodeCo(j,i) * phi[i];
-            gradx(j, 0) += NodeCo(j, i) * dphi(0, i);
-            gradx(j, 1) += NodeCo(j, i) * dphi(1, i);
+            gradx(j,0) += NodeCo(j, i) * dphi(0, i);
+            gradx(j,1) += NodeCo(j, i) * dphi(1, i);
         }
     }
 }

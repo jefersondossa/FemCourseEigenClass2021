@@ -144,21 +144,29 @@ void Poisson::Contribute(IntPointData &data, double weight, MatrixDouble &EK, Ma
         force(data.x, res);
     }
 
-	for(int i = 0; i < nshape; i++){
-		for(int j = 0; j < nshape; j++){
-            double dphiIdphiJ = 0.;
-            for(int x = 0; x < dim; x++) dphiIdphiJ += dphi(x,i) * dphi(x,j);
-			for(int ivi = 0; ivi < nstate; ivi++){
-                const int posI = nstate*i+ivi;
-                const int posJ = nstate*j+ivi;
-                EK(posI, posJ) += weight*dphiIdphiJ;
-			}//ivi
-		}//for j
-		for(int ivi = 0; ivi < nstate; ivi++){
-			const int posI = nstate*i+ivi;
-            EF(posI,0) += weight*phi(i)*res(ivi);
-		}//ivi
-	}//for i
+    EF += phi * res[0] * weight;
+    EK += dphi3 * perm * dphi2 * weight; 
+
+
+	// for(int i = 0; i < nshape; i++){
+	// 	for(int j = 0; j < nshape; j++){
+    //         double dphiIdphiJ = 0.;
+    //         for(int x = 0; x < dim; x++) dphiIdphiJ += dphi(x,i) * dphi(x,j);
+	// 		for(int ivi = 0; ivi < nstate; ivi++){
+    //             const int posI = nstate*i+ivi;
+    //             const int posJ = nstate*j+ivi;
+    //             EK(posI, posJ) += weight * dphiIdphiJ * perm(0,0);
+	// 		}//ivi
+	// 	}//for j
+	// 	for(int ivi = 0; ivi < nstate; ivi++){
+	// 		const int posI = nstate*i+ivi;
+    //         EF(posI,0) += weight*phi(i)*res(ivi);
+	// 	}//ivi
+	// }//for i
+
+    // std::cout << "DPHI = \n" << data.dphidksi << "\n\n"<< weight << std::endl;
+    // std::cout << "DPHI3 = \n" << dphi << "\n\n"<< weight << std::endl;
+    // std::cout << "MATRIX = \n" << EK << std::endl;
 
     //+++++++++++++++++
     // Please implement me
@@ -186,33 +194,28 @@ void Poisson::PostProcessSolution(const IntPointData &data, const int var, VecDo
 
         case 1: //ESol
         {
-            //+++++++++++++++++
-            // Please implement me
-            std::cout << "\nPLEASE IMPLEMENT ME\n" << __PRETTY_FUNCTION__ << std::endl;
-            return;
-            DebugStop();
-            //+++++++++++++++++
+            Solout.resize(nstate);
+            for (int i=0; i<nstate; i++) {
+                Solout[i] = sol[i];
+            }
         }
             break;
 
         case 2: //EDSol
         {
-            //+++++++++++++++++
-            // Please implement me
-            std::cout << "\nPLEASE IMPLEMENT ME\n" << __PRETTY_FUNCTION__ << std::endl;
-            return;
-            DebugStop();
-            //+++++++++++++++++
+            Solout.resize(var);
+            for (int i=0; i<var; i++) {
+                Solout[i] = gradu(i);
+            }
         }
             break;
         case 3: //EFlux
         {
-            //+++++++++++++++++
-            // Please implement me
-            std::cout << "\nPLEASE IMPLEMENT ME\n" << __PRETTY_FUNCTION__ << std::endl;
-            return;
-            DebugStop();
-            //+++++++++++++++++
+            Solout.resize(Dimension());
+            auto perm = this->GetPermeability();
+            for (int i=0; i<Dimension(); i++) {
+                Solout[i] = gradu(i) * perm(0,0);
+            }
         }
             break;
 

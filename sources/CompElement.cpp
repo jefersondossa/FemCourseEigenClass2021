@@ -122,9 +122,9 @@ void CompElement::ComputeRequiredData(IntPointData &data, VecDouble &intpoint) c
     jac.setZero();
     MatrixDouble jacinv(dim, dim);
     jacinv.setZero();
-
+    // std::cout << "GRADX \n " << data.gradx<<std::endl; 
     geoel->Jacobian(data.gradx, jac, data.axes, data.detjac, jacinv);
-
+    // std::cout << "Detjac \n " << data.detjac<<std::endl; 
     this->ShapeFunctions(intpoint, data.phi, data.dphidksi);
     this->Convert2Axes(data.dphidksi, jacinv, data.dphidx);
 }
