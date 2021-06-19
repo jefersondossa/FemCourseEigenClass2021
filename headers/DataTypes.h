@@ -9,12 +9,13 @@
 #ifndef __DATATYPES__
 #define __DATATYPES__
 
+///\cond
 #include <cmath>
 #include <stdio.h>
 #include <vector>
 #include <functional>
-//#include "TVecNum.h"
 #include <Eigen/Dense>
+///\endcond
 #include "tpanic.h"
 
 using namespace Eigen;

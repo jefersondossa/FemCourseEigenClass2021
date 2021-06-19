@@ -9,7 +9,6 @@
 #define CompElementTemplate_h
 
 #include "CompElement.h"
-#include "IntRule.h"
 #include "DOF.h"
 
 /**

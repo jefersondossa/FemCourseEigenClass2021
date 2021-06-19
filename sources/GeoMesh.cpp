@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 
-#include <stdio.h>
+
 #include "GeoMesh.h"
 #include "GeoElementSide.h"
+///\cond
 #include <vector>
-#include "tpanic.h"
+#include <stdio.h>
+///\endcond
 
 GeoMesh::GeoMesh() : Nodes(0), Elements(0) {
     Reference = 0;

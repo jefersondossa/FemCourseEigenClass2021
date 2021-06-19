@@ -4,13 +4,11 @@
  * and open the template in the editor.
  */
 
-#include "tpanic.h"
-#include "GeoElement.h"
 #include "GeoElementSide.h"
+///\cond
 #include <set>
+///\endcond
 
-#include "tpanic.h"
- 
 GeoElement::GeoElement() : GMesh(0), MaterialId(-1), Reference(0), Index(-1) {
 
 }

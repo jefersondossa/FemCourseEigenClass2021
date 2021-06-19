@@ -19,11 +19,7 @@
 #include <fstream>
 #include <math.h>
 #include "CompMesh.h"
-#include "GeoElement.h"
 #include "GeoElementTemplate.h"
-#include "MathStatement.h"
-#include "L2Projection.h"
-#include "Analysis.h"
 #include "IntRule.h"
 #include "PostProcessTemplate.h"
 #include "Poisson.h"

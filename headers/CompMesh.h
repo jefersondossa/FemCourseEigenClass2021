@@ -9,7 +9,6 @@
 #define CompMesh_h
 
 #include "DOF.h"
-#include "DataTypes.h"
 
 class CompElement;
 

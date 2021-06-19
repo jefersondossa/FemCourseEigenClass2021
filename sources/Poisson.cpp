@@ -5,9 +5,10 @@
  */
 
 #include "Poisson.h"
-#include "PostProcess.h"
+///\cond
 #include <functional>
 #include <string.h>
+///\endcond
 
 Poisson::Poisson() {
 }

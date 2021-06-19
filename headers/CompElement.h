@@ -8,11 +8,11 @@
 #ifndef CompElement_h
 #define CompElement_h
 
-#include "DataTypes.h"
 #include "IntRule.h"
-//#include "IntPointData.h"
-//#include "PostProcess.h"
+
+///\cond
 #include <functional>
+///\endcond
 
 class CompMesh;
 class GeoElement;
