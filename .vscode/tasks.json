@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "make",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-j1"
+            ],
+            "options": {
+                "cwd": "/home/jefersondossa/NeoPz/FemCourseEigenClass2021/build"
+            }
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "options": {
+                "cwd": "/home/jefersondossa/NeoPz/FemCourseEigenClass2021/build"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": ["make"]
+        }
+    ]
+}

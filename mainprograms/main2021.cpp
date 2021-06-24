@@ -26,12 +26,19 @@ auto exactSol = [](const VecDouble &loc,
   MatrixDouble &gradU){
   const auto &x=loc[0];
   const auto &y=loc[1];
-  
-  // const auto &d = 1.; // distance betweel injection and production wells
-  u[0]= x*x-y*y;//log(hypot(x,y)) - log(hypot(x-d,y-d)) - log(hypot(x+d,y-d)) - log(hypot(x-d,y+d)) - log(hypot(x+d,y+d));
-  gradU(0,0) = 2.*x;//x/(x*x+y*y) - (x-d)/(pow(x-d,2)+pow(y-d,2)) - (x+d)/(pow(x+d,2)+pow(y-d,2)) - (x-d)/(pow(x-d,2)+pow(y+d,2)) - (x+d)/(pow(x+d,2)+pow(y+d,2));
-  gradU(1,0) = -2.*y;//y/(x*x+y*y) - (y-d)/(pow(x-d,2)+pow(y-d,2)) - (y-d)/(pow(x+d,2)+pow(y-d,2)) - (y+d)/(pow(x-d,2)+pow(y+d,2)) - (y+d)/(pow(x+d,2)+pow(y+d,2));
-  // gradU(2,0) = 0;//optional
+
+  u[0]= x*x-y*y;
+  gradU(0,0) = 2.*x;
+  gradU(1,0) = -2.*y;
+};
+
+auto force = [](const VecDouble &loc,
+  VecDouble &f){
+  const auto &x=loc[0];
+  const auto &y=loc[1];
+
+  f[0]= x*x-y*y;
+
 };
 
 int main (){
