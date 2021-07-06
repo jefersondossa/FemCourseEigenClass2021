@@ -42,7 +42,7 @@ public:
     void Read(GeoMesh& gmesh, const std::string& file_name);
     
     
-private:
+// private:
     /** @brief Reads geometric mesh file from GMsh (.msh version 3)
      * @param gmesh [output] Reference to a geometric mesh to be filled with elements from msh file
      * @param file_name Relative path to the .msh file you want to read

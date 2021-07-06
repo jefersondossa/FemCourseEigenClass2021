@@ -55,7 +55,8 @@ void Geom1d::GradX(const VecDouble &xi, MatrixDouble &NodeCo, VecDouble &x, Matr
     x.setZero();
     int nrow = NodeCo.rows();
     int ncol = NodeCo.cols();
-    if (gradx.cols()<nrow) gradx.resize(nrow,1);
+    // if (gradx.cols()<nrow)
+     gradx.resize(nrow,1);
 
     VecDouble phi(nCorners);
     MatrixDouble dphi(Dimension, nCorners);

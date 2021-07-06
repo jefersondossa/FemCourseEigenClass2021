@@ -82,8 +82,8 @@ void L2Projection::Contribute(IntPointData &data, double weight, MatrixDouble &E
     switch (this->GetBCType()) {
         case 0:
         {
-            EF += (1.e10 * result(0) * weight) * data.phi;
-            EK += (1.e10 * weight) * data.phi * data.phi.transpose();
+            EF += (MathStatement::gBigNumber * result[0] * weight) * data.phi;
+            EK += (MathStatement::gBigNumber * weight) * data.phi * data.phi.transpose();
 
             break;
         }

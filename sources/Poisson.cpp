@@ -92,7 +92,8 @@ int Poisson::NSolutionVariables(const PostProcVar var) {
 }
 
 void Poisson::ContributeError(IntPointData &data, VecDouble &u_exact, MatrixDouble &du_exact, VecDouble &errors) const {
-    errors.resize(NEvalErrors(), 0);
+    errors.resize(NEvalErrors());
+    errors.setZero();
     MatrixDouble gradu;
     MatrixDouble axes = data.axes;
 
@@ -143,7 +144,8 @@ void Poisson::Contribute(IntPointData &data, double weight, MatrixDouble &EK, Ma
     }
 
     EF += phi * res * weight;
-    EK += dphi3 * perm * dphi2 * weight; 
+    // EK += dphi3 * perm * dphi2 * weight;    
+    EK += (dphi3*perm*dphi2 + phi*phi.transpose()) * weight;
 
 }
 

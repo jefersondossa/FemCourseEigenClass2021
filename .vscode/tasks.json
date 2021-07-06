@@ -6,17 +6,17 @@
             "type": "shell",
             "command": "make",
             "args": [
-                "-j1"
+                "-j12"
             ],
             "options": {
-                "cwd": "/home/jefersondossa/NeoPz/FemCourseEigenClass2021/build"
+                "cwd": "/home/jeferson/Codes/NeoPZ/FemCourseEigenClass2021/build"
             }
         },
         {
             "label": "build",
             "type": "shell",
             "options": {
-                "cwd": "/home/jefersondossa/NeoPz/FemCourseEigenClass2021/build"
+                "cwd": "/home/jeferson/Codes/NeoPZ/FemCourseEigenClass2021/build"
             },
             "group": {
                 "kind": "build",
