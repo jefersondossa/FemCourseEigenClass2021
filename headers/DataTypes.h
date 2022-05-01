@@ -15,12 +15,15 @@
 #include <vector>
 #include <functional>
 #include <Eigen/Dense>
+#include <Eigen/SparseCore>
 ///\endcond
 #include "tpanic.h"
 
 using namespace Eigen;
 
-typedef Eigen::MatrixXd MatrixDouble ;
+typedef Eigen::MatrixXd MatrixDouble;
+typedef Eigen::SparseMatrix<double> SparseMat;
+
 //typedef Eigen::VectorXi VecInt;
 typedef Eigen::Matrix<int64_t, Dynamic, 1> VecInt;
 typedef Eigen::VectorXd VecDouble;

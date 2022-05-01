@@ -16,8 +16,6 @@ using namespace std;
 
 IntRule::IntRule() : fPoints(), fWeights(){
         fOrder = 0;
-
-
 }
 
 IntRule::IntRule(int order) {

@@ -35,14 +35,16 @@ class PostProcess;
 class Analysis
 {
 protected:
+    /// Computational mesh on which we will perform the analysis
     CompMesh *cmesh;
 
-public:
-    
+    /// multiplying coefficients defining the finite element approximation
     MatrixDouble Solution;
-    
-    MatrixDouble GlobalSystem;
-    
+
+    /// as the name says : the global system of equations
+    SparseMat GlobalSystem;
+
+    /// as the name says: the matrix representing the right hand side
     MatrixDouble RightHandSide;
     
 public:
@@ -61,6 +63,7 @@ public:
     
     CompMesh *Mesh() const;
     
+    /// This method will assemble the global system of equations and compute the solution
     void RunSimulation();
     
     void PostProcessSolution(const std::string &filename, PostProcess &defPostProc) const;

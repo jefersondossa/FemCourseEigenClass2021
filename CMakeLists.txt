@@ -2,7 +2,7 @@
 
 cmake_minimum_required (VERSION 3.10.0)
 
-project (FemCourseRef)
+project (FemCourseClassVersion)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #[[

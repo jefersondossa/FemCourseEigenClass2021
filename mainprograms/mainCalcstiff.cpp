@@ -30,7 +30,7 @@ int main ()
     
     GeoMesh gmesh;
     ReadGmsh read;
-    read.Read(gmesh,"quads.msh");
+    read.Read(gmesh,"../quads.msh");
     VTKGeoMesh plotmesh;
     plotmesh.PrintGMeshVTK(&gmesh, "quads.vtk");
     CompMesh cmesh(&gmesh);

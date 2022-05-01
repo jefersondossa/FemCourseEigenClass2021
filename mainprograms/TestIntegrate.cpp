@@ -26,6 +26,8 @@ double Integral(int index, int order);
 template<class intrule>
 double Integrate(int indexFunc, int orderRule)
 {
+    std::string str("You need to implement the constructor");
+    CAPTURE(str);
     intrule TestInt1(orderRule);
     VecDouble CoordXi(TestInt1.Dimension());
     int NPoint = TestInt1.NPoints();
@@ -73,6 +75,10 @@ TEST_CASE("integrate","[integration]")
         GenerateCompareData<IntRule1d>(order, correct, computed);
         for (int i = 0; i< correct.size(); i++) {
             CAPTURE(i);
+            if(abs(computed[i]-correct[i]) >= 1.e-8)
+            {
+                std::cout << "The one dimensional integration rule is in error\n";
+            }
             REQUIRE_THAT(computed[i], Catch::Matchers::WithinAbs(correct[i],1.e-8));
         }
     }
@@ -110,10 +116,14 @@ void TestOutofBounds()
     int order = -1;
     intrule loc;
     CAPTURE(order);
+    std::stringstream str;
+    str << __PRETTY_FUNCTION__ << " Your function should throw an exception if order is negative";
+    CAPTURE(str.str());
     REQUIRE_THROWS(intrule(order));
     REQUIRE_THROWS(loc.SetOrder(order));
     order = maxorder+1;
     CAPTURE(order);
+    CAPTURE("Your function should throw an exception if order is larger than gMaxOrder()");
     REQUIRE_THROWS(intrule(order));
     REQUIRE_THROWS(loc.SetOrder(order));
     

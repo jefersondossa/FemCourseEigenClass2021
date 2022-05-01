@@ -45,7 +45,7 @@ int64_t Assemble::NEquations() {
 void Assemble::OptimizeBandwidth() {    
 }
 
-void Assemble::Compute(MatrixDouble &globmat, MatrixDouble &rhs) {
+void Assemble::Compute(SparseMat &globmat, MatrixDouble &rhs) {
     
     auto neq = NEquations();
     

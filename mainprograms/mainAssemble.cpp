@@ -53,7 +53,8 @@ int main ()
     
     Assemble assemble(&cmesh);
     auto neq = assemble.NEquations();
-    MatrixDouble globmat(neq,neq),rhs(neq,1);
+    SparseMat globmat(neq,neq);
+    MatrixDouble rhs(neq,1);
     assemble.Compute(globmat, rhs);
     return 0;
 }

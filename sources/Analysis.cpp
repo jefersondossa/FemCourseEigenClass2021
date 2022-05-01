@@ -11,6 +11,7 @@
 #include "GeoElement.h"
 #include "VTKGeoMesh.h"
 #include "PostProcessTemplate.h"
+#include <Eigen/SparseLU>
 
 using namespace std;
 
@@ -56,7 +57,7 @@ void Analysis::RunSimulation() {
     Assemble assemb(cmesh);
 
     int ne = assemb.NEquations();
-    MatrixDouble K(ne, ne);
+    SparseMat K(ne, ne);
     MatrixDouble F(ne, 1);
 
     K.setZero();
@@ -69,8 +70,15 @@ void Analysis::RunSimulation() {
     RightHandSide = F;
 
     std::cout << "Computing solution..." << std::endl;
-    Solution = K.fullPivLu().solve(F);
-//    K.Solve_LU(F);
+    
+    SparseLU<SparseMat, COLAMDOrdering<int> >   solver;
+    // Compute the ordering permutation vector from the structural pattern of A
+    solver.analyzePattern(K); 
+    // Compute the numerical factorization 
+    solver.factorize(K); 
+    //Use the factors to solve the linear system 
+    Solution = solver.solve(F); 
+
     std::cout << "Solution computed!" << std::endl;
     
     int solsize = Solution.rows();
